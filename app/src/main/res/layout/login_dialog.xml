@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="10dp">
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/etEmail"
+        android:layout_width="448dp"
+        android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="@string/email"
+        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
-        android:hint="Email"
-        />
+        android:visibility="visible" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/etPassword"
+        android:layout_width="447dp"
+        android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Password"
-        />
+        android:hint="@string/password"
+        android:importantForAutofill="no"
+        android:inputType="textPassword" />
 
 
 </LinearLayout>

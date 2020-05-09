@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +9,7 @@
     android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
     android:padding="5dp"
-    tools:context="com.atifnaseem.tictactoe.SplashActivity">
+    tools:context=".MenuActivity">
 
     <mehdi.sakout.fancybuttons.FancyButton
         android:id="@+id/btn_singlePlayer"

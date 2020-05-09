@@ -10,4 +10,6 @@
             This is a basic Tic Tac Toe game(XO game)
             \n Have fun!!
         </string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>

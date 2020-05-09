@@ -36,6 +36,7 @@
             android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".SplashActivity"
+
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape"
             android:theme="@style/FullScreenTheme">

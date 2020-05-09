@@ -171,19 +171,53 @@ public class OnlineLoginActivity extends AppCompatActivity {
         });
         b.show();
     }
-
     void StartGame(String PlayerGameID, String OtherPlayer, String requestType){
         myRef.child("playing").child(PlayerGameID).removeValue();
-        Intent i = new Intent(getApplicationContext(),OnlineLoginActivity.class);
+        Intent i = new Intent(getApplicationContext(),OnlineGameActivity.class);
         i.putExtra("player_session",PlayerGameID);
         i.putExtra("other_player", OtherPlayer);
         i.putExtra("login_uid",LoginUID);
-        i.putExtra("request_type", requestType);
+        i.putExtra("request_tupe", requestType);
         startActivity(i);
         finish();
     }
 
-    void updateLoginUsers(DataSnapshot dataSnapshot) {
+
+    private String convertEmailToString(String Email){
+        String value = Email.substring(0, Email.indexOf('@'));
+        value = value.replace(".", "");
+        return value;
+    }
+    void AcceptIncomingRequests(){
+        myRef.child("users").child(UserName).child("request")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        try {
+                            HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                            if (map !=null){
+                                String value ="";
+                                for (String key:map.keySet()){
+                                    value = (String) map.get(key);
+                                    reqUsersAdpt.add(convertEmailToString(value));
+                                    reqUsersAdpt.notifyDataSetChanged();
+                                    myRef.child("users").child(UserName).child("request").setValue(LoginUID);
+                                }
+                            }
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    public void updateLoginUsers(DataSnapshot dataSnapshot) {
         String key = "";
         Set<String> set = new HashSet<String>();
         Iterator i = dataSnapshot.getChildren().iterator();
@@ -199,40 +233,6 @@ public class OnlineLoginActivity extends AppCompatActivity {
         tvSendRequest.setText("Send request to");
         tvAcceptRequest.setText("Accept request from");
     }
-    private String convertEmailToString(String Email){
-        String value = Email.substring(0, Email.indexOf('@'));
-        value = value.replace(".", "");
-        return value;
-    }
-
-    void AcceptIncomingRequests(){
-        myRef.child("users").child(UserName).child("request")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                       try {
-                           HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                           if (map !=null){
-                               String value ="";
-                               for (String key:map.keySet()){
-                                   value = (String) map.get(key);
-                                   reqUsersAdpt.add(convertEmailToString(value));
-                                   reqUsersAdpt.notifyDataSetChanged();
-                                   myRef.child("users").child(UserName).child("request").setValue(LoginUID);
-                               }
-                           }
-
-                       }catch (Exception e){
-                           e.printStackTrace();
-                       }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-    }
     @Override
     public void onStart() {
         super.onStart();
@@ -246,7 +246,6 @@ public class OnlineLoginActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
     public void RegisterUser(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -264,9 +263,7 @@ public class OnlineLoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-    public void JoinOnlineGame() {
+        public void JoinOnlineGame() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.login_dialog, null);
@@ -286,13 +283,14 @@ public class OnlineLoginActivity extends AppCompatActivity {
         b.setNegativeButton("Back", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(i);
                 finish();
             }
         });
         b.show();
     }
+
 }
 
 
